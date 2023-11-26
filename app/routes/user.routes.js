@@ -10,8 +10,8 @@ router.post("/login", user_controller.login);
 router.get("/", user_controller.getAllUsers);  
 
 // Authentication required for these routes
-router.put("/:id", authJwt.verifyToken, user_controller.updateUser);
-router.delete("/:id", authJwt.verifyToken, user_controller.deleteUser);
+router.put("/:id", user_controller.updateUser);
+router.delete("/:id", user_controller.deleteUser);
 
 
 module.exports = app => {

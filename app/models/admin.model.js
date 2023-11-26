@@ -36,33 +36,32 @@
           }
       });
   };
-    Admin.createUser = (user, result) => {
-      const hashedPassword = bcrypt.hashSync(user.password, 10);
-      sql.query("INSERT INTO users (fullname, username, password) VALUES (?, ?, ?)", 
-      [user.fullname, user.username, hashedPassword], 
-      (err, res) => {
-          if(err) {
-              console.log("error: ", err);
-              result(err, null);
-              return;
-          }
-          result(null, { id: res.insertId, ...user });
-      });
-  };
+  Admin.createUser = (newUser, result) => {
+    const salt = bcrypt.genSaltSync(10);
+    newUser.password = bcrypt.hashSync(newUser.password, salt);
+    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, { id: res.insertId, ...newUser });
+    });
+};
 
   
 // Create a new user
 Admin.createUser = (newUser, result) => {
     const salt = bcrypt.genSaltSync(10);
-    newAdmin.password = bcrypt.hashSync(newAdmin.password, salt);
-  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
-      if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
-      }
-      result(null, { id: res.insertId, ...newUser });
-  });
+    newUser.password = bcrypt.hashSync(newUser.password, salt); 
+    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, { id: res.insertId, ...newUser });
+    });
 };
 
 // Get all users

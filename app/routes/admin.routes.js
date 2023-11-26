@@ -8,11 +8,11 @@ const router = express.Router();
 router.post("/login", adminController.login);
 
 // CRUD operations on users for admin
-router.get("/users", authJwt.verifyToken, adminController.getAllUsers);
-router.post("/users", authJwt.verifyToken, adminController.createUser);
-router.get("/users/:id", authJwt.verifyToken, adminController.getUserById);
-router.put("/users/:id", authJwt.verifyToken, adminController.updateUser);
-router.delete("/users/:id", authJwt.verifyToken, adminController.deleteUser);
+router.get("/users", adminController.getAllUsers);
+router.post("/users", adminController.createUser);
+router.get("/users/:id", adminController.getUserById);
+router.put("/users/:id", adminController.updateUser);
+router.delete("/users/:id", adminController.deleteUser);
 
 module.exports = app => {
     app.use("/api/admin", router);

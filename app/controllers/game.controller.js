@@ -4,12 +4,7 @@ const createGame = (req, res) => {
     const game = new Game({
         name: req.body.name,
         image_url: req.body.image_url,
-        price1: req.body.price1,
-        price2: req.body.price2,
-        price3: req.body.price3,
-        price4: req.body.price4,
-        price5: req.body.price5,
-        price6: req.body.price6
+        package: req.body.package
     });
 
     Game.create(game, (err, data) => {

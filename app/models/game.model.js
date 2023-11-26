@@ -3,12 +3,7 @@ const sql = require('./db');
 const Game = function(game) {
     this.name = game.name;
     this.image_url = game.image_url;
-    this.price1 = game.price1;
-    this.price2 = game.price2;
-    this.price3 = game.price3;
-    this.price4 = game.price4;
-    this.price5 = game.price5;
-    this.price6 = game.price6;
+    this.package = game.package;
 };
 
 Game.create = (newGame, result) => {
@@ -41,8 +36,8 @@ Game.findById = (gameId, result) => {
 
 Game.updateById = (gameId, game, result) => {
     sql.query(
-        "UPDATE games SET name = ?, image_url = ?, price1 = ?, price2 = ?, price3 = ?, price4 = ?, price5 = ?, price6 = ? WHERE id = ?",
-        [game.name, game.image_url, game.price1, game.price2, game.price3, game.price4, game.price5, game.price6, gameId],
+        "UPDATE games SET name = ?, image_url = ?, package = ? WHERE id = ?",
+        [game.name, game.image_url, game.package, gameId],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
