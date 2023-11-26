@@ -1,25 +1,25 @@
 const Order = require("../models/order.model.js");
 
 exports.create = (req, res) => {
-    if(!req.body) {
-        res.status(400).send({
-            message: "Content cannot be empty!"
-        });
+    if (!req.body) {
+      return res.status(400).send({ message: "Content cannot be empty!" });
     }
-
+  
     const order = new Order({
-        game_id: req.body.game_id,
-        user_game_id: req.body.user_game_id,
-        selected_price: req.body.selected_price,
-        status: req.body.status
+      game_id: req.body.game_id,
+      user_game_id: req.body.user_game_id,
+      selected_price: req.body.selected_package, // Ensure the property names match
+      status: req.body.status
     });
-
+  
     Order.create(order, (err, data) => {
-        if(err)
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order."
-            });
-        else res.send(data);
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating the Order."
+        });
+      } else {
+        res.status(201).send(data); // Ensure you send a 201 status on success
+      }
     });
 };
 
@@ -66,7 +66,3 @@ exports.getAllOrders = (req, res) => {
         else res.send(data);
     });
 };
-
-
-
-

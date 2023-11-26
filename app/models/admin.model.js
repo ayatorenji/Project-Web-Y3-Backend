@@ -49,8 +49,8 @@
           result(null, { id: res.insertId, ...user });
       });
   };
-  
 
+  
 // Create a new user
 Admin.createUser = (newUser, result) => {
     const salt = bcrypt.genSaltSync(10);

@@ -3,44 +3,21 @@ const sql = require('./db');
 const Order = function(order) {
     this.game_id = order.game_id;
     this.user_game_id = order.user_game_id;
-    this.selected_price = order.selected_price;
-    this.status = order.status || 'Pending'; // Default value is 'Pending'
-};
+    this.username = order.username;
+    this.selected_package = order.selected_package;
+    this.status = order.status || 'Pending';
+  };
 
-Order.create = (newOrder, result) => {
-    // First, get the game based on game_id
-    sql.query("SELECT * FROM games WHERE id = ?", [newOrder.game_id], (err, gameResult) => {
-        if (err) {
-            result(err, null);
-            return;
-        }
-        
-        // Check if the game exists
-        if (!gameResult.length) {
-            result(new Error("Game not found."), null);
-            return;
-        }
-
-        const game = gameResult[0];
-        const prices = [game.price1, game.price2, game.price3, game.price4, game.price5, game.price6];
-        
-        // Validate if selected_price is one of the game prices
-        if (!prices.includes(newOrder.selected_price)) {
-            result(new Error("Invalid price selected."), null);
-            return;
-        }
-
-        // If validation passed, insert into orders table
-        sql.query("INSERT INTO orders SET ?", newOrder, (insertErr, insertResult) => {
-            if (insertErr) {
-                result(insertErr, null);
-                return;
-            }
-            console.log("Created order: ", { id: insertResult.insertId, ...newOrder });
-            result(null, { id: insertResult.insertId, ...newOrder });
-        });
+  Order.create = (newOrder, result) => {
+    sql.query("INSERT INTO orders SET ?", newOrder, (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+      result(null, { id: res.insertId, ...newOrder });
     });
-};
+  };
+  
 
 Order.findById = (orderId, result) => {
     sql.query(`SELECT * FROM orders WHERE id = ${orderId}`, (err, res) => {
